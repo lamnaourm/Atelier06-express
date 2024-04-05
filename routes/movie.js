@@ -1,9 +1,15 @@
 import express from 'express'
+import MovieModel from '../models/MovieModel.js'
 
 const routes = express.Router()
 
 routes.get('/all', (req, res) => {
-
+    MovieModel.find()
+    .then((movies) => {
+        res.json(movies)
+    }).catch((err) => {
+        res.status(510).send('error')
+    })
 })
 
 routes.get('/actors/:filmname', (req, res) => {
@@ -27,7 +33,7 @@ routes.post('/add', (req, res) => {
     
 })
 
-routes.update('/update/:name', (req, res) => {
+routes.put('/update/:name', (req, res) => {
     
 })
 
