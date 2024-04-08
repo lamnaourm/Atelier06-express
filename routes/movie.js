@@ -47,11 +47,25 @@ routes.get('/directors/:filmname', (req, res) => {
 })
 
 routes.get('/listcategory/:category', (req, res) => {
-
+    const name = req.params.category
+    MovieModel.find({categories:name})
+    .then((movies) => {
+        res.json(movies)
+    }).catch((err) => {
+        res.status(510).send('error')
+    })
 })
 
 routes.get('/years/:year1/:year2', (req, res) => {
-
+    const year1 = req.params.year1
+    const year2 = req.params.year2
+    
+    MovieModel.find({year:{$gte:year1, $lte:year2}})
+    .then((movies) => {
+        res.json(movies)
+    }).catch((err) => {
+        res.status(510).send('error')
+    })
 })
 
 
