@@ -15,11 +15,24 @@ routes.get('/all', (req, res) => {
 })
 
 routes.get('/actors/:filmname', (req, res) => {
-    
+
+    const name = req.params.filmname;
+    MovieModel.find({name},{_id:0, actors:1})
+    .then((names) => {
+
+        ActModel.find({name:{$in:names[0].actors}})
+        .then((actors) => {
+            res.json(actors)
+        })
+        
+    }).catch((err) => {
+        res.status(510).send('error')
+    })
+
 })
 
 routes.get('/directors/:filmname', (req, res) => {
-
+    
 })
 
 routes.get('/listcategory/:category', (req, res) => {
