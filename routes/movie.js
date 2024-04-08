@@ -24,7 +24,7 @@ routes.get('/actors/:filmname', (req, res) => {
         .then((actors) => {
             res.json(actors)
         })
-        
+
     }).catch((err) => {
         res.status(510).send('error')
     })
@@ -32,7 +32,18 @@ routes.get('/actors/:filmname', (req, res) => {
 })
 
 routes.get('/directors/:filmname', (req, res) => {
-    
+    const name = req.params.filmname;
+    MovieModel.find({name},{_id:0, directors:1})
+    .then((names) => {
+
+        ActModel.find({name:{$in:names.directors}})
+        .then((director) => {
+            res.json(director)
+        })
+        
+    }).catch((err) => {
+        res.status(510).send('error')
+    })
 })
 
 routes.get('/listcategory/:category', (req, res) => {
